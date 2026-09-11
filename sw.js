@@ -1,5 +1,5 @@
 // Network requests to Lichess, OAuth callbacks and credentials are never cached.
-const CACHE='calme-shell-02db81437a05';
+const CACHE='calme-shell-66e7e4b7f2fb';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(['./','./manifest.webmanifest','./calme-icon-192.png','./calme-icon-512.png'])));});
 // No skipWaiting: an update must never take control during an open game.
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('calme-shell-')&&k!==CACHE).map(k=>caches.delete(k)))));});
