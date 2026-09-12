@@ -1,5 +1,5 @@
 // Network requests to Lichess, OAuth callbacks and credentials are never cached.
-const CACHE='calme-shell-ffffd0f4ed45';
+const CACHE='calme-shell-938c2defb86d';
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(['./','./manifest.webmanifest','./calme-icon-192.png','./calme-icon-512.png'])));});
 self.addEventListener('message',event=>{if(event.data?.type==='skip-waiting')void self.skipWaiting();});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('calme-shell-')&&k!==CACHE).map(k=>caches.delete(k)))));});
@@ -9,6 +9,6 @@ self.addEventListener('fetch',event=>{
  if(event.request.mode==='navigate'){
   event.respondWith(fetch(event.request).catch(()=>caches.match(new URL('./',self.registration.scope)).then(r=>r||Response.error())));return;
  }
- if(!/\.(js|css|png|svg|woff2|webmanifest)$/.test(url.pathname))return;
+ if(!/\.(js|css|png|svg|wasm|woff2|webmanifest)$/.test(url.pathname))return;
  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{if(response.ok){const copy=response.clone();void caches.open(CACHE).then(cache=>cache.put(event.request,copy));}return response;})));
 });
